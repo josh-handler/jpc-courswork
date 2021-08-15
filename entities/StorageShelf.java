@@ -7,4 +7,8 @@ public class StorageShelf extends Entity {
         this.entityID=entityID;
         this.itemUID=itemUID;
     }
+
+    public String getItemUID() {
+        return itemUID;
+    }
 }

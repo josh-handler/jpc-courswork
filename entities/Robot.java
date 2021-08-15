@@ -17,5 +17,19 @@ public class Robot extends Entity{
         this.podID=podID;
     }
 
+    public String getPodID() {
+        return podID;
+    }
 
+    public int getCurrentCharge() {
+        return currentCharge;
+    }
+
+    public int getMaxCharge() {
+        return maxCharge;
+    }
+
+    public String getHeldItemID() {
+        return heldItemID;
+    }
 }
