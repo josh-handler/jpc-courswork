@@ -4,15 +4,14 @@ import java.io.*;
 import java.util.ArrayList;
 
 public  class FileToArrayList {
-    public static ArrayList<String[]> readFile(File target){
-        System.out.println("Test Running");
+    public static ArrayList<String> readFile(File target){
         String reading = "";
-        ArrayList<String[]> contents = new ArrayList<>();
+        ArrayList<String> contents = new ArrayList<>();
         try {
             FileReader fReader = new FileReader(target);
             BufferedReader bReader = new BufferedReader(fReader);
             while ((reading = bReader.readLine())!=null){
-                contents.add(reading.split(","));
+                contents.add(reading);
 
             }
         } catch (FileNotFoundException e) {
