@@ -1,21 +1,23 @@
 package entities;
 
+import java.util.ArrayList;
+
 public class Robot extends Entity{
 
     //private String entityID;
-    private String heldItemID;
+    private ArrayList<String> heldItems;
     private final int maxCharge; //capacity
     private int currentCharge;
-    private final String podID;
+    private final ChargingPod pod;
     //STATUS? IDLE, BUSY?
 
 
-    public Robot(String entityID, String heldItemID, int maxCharge, String podID){
-        this.heldItemID = heldItemID;
+    public Robot(String entityID, int maxCharge, ChargingPod pod){
+        heldItems=new ArrayList<>();
         this.entityID = entityID;
         this.maxCharge = maxCharge;
         currentCharge = maxCharge;
-        this.podID=podID;
+        this.pod = pod;
     }
 
 //method to check chargeS
@@ -25,11 +27,9 @@ public class Robot extends Entity{
 
 
 private void charge() {
-//MAKE A FLOOR CLASS, MAKE METHOD TO CKECK IF AT ChargingPod
-
-
+        int chargeSpeed = pod.getChargeSpeed();
 		if (this.currentCharge + chargeSpeed >= maxCharge) {
-      //charged//fully charhed
+      //charged//fully charged
 			this.currentCharge = maxCharge;
 		}
     else {
@@ -43,8 +43,8 @@ private void charge() {
 
 
     //getters
-    public String getPodID() {
-        return podID;
+    public ChargingPod getPod() {
+        return pod;
     }
 
     public int getCurrentCharge() {
@@ -55,7 +55,7 @@ private void charge() {
         return maxCharge;
     }
 
-    public String getHeldItemID() {
-        return heldItemID;
+    public ArrayList<String> getHeldItems() {
+        return heldItems;
     }
 }
