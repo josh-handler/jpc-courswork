@@ -1,6 +1,9 @@
 package simulation;
 
 import entities.Entity;
+import entities.PackingStation;
+import entities.Robot;
+import entities.StorageShelf;
 import framework.FileToArrayList;
 
 import java.io.File;
@@ -57,4 +60,22 @@ public class Control {
 
     public void runSimulation(){}
 
+    public ArrayList<Robot> robotsForOrder(PackingStation endpoint){
+        ArrayList<Robot> available = new ArrayList<>();
+        for (Entity entity:
+             entityList) {
+            if(entity.getEntityType()== Entity.EntityType.ROBOT){
+                available.add((Robot) entity);
+        }
+        }
+        for (Robot robot:
+             available) {
+            if(robot.getState()!= Robot.Status.IDLE){
+                available.remove(robot);
+            }
+        }
+        return available;
+    }
+
 }
+

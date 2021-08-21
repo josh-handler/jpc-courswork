@@ -9,7 +9,11 @@ public class Robot extends Entity{
     private final int maxCharge; //capacity
     private int currentCharge;
     private final ChargingPod pod;
-    //STATUS? IDLE, BUSY?
+    public enum Status {IDLE, BUSY};
+
+
+
+    Status state;
 
 
     public Robot(String entityID, int maxCharge, ChargingPod pod){
@@ -18,6 +22,8 @@ public class Robot extends Entity{
         this.maxCharge = maxCharge;
         currentCharge = maxCharge;
         this.pod = pod;
+        eType = EntityType.ROBOT;
+        state=Status.IDLE;
     }
 
 //method to check chargeS
@@ -58,4 +64,5 @@ private void charge() {
     public ArrayList<String> getHeldItems() {
         return heldItems;
     }
+    public Status getState() {return state;}
 }

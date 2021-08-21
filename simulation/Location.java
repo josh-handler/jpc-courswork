@@ -1,3 +1,5 @@
+package simulation;
+
 public class Location {
 
 	private int row;
@@ -34,3 +36,4 @@ public class Location {
 	public int getColumn() {
 		return this.column;
 	}
+}

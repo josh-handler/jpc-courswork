@@ -7,6 +7,7 @@ public class ChargingPod extends Entity{
   public ChargingPod(String entityID, int chargeSpeed) {
     this.entityID = entityID;
     this.chargeSpeed=chargeSpeed;
+    eType = EntityType.CHARGINGPOD;
   }
 
   public int getChargeSpeed() {

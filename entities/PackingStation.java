@@ -1,6 +1,9 @@
 package entities;
 
+import simulation.Control;
 import simulation.Order;
+
+import static simulation.Main.control;
 
 public class PackingStation extends Entity {
 
@@ -28,6 +31,7 @@ public class PackingStation extends Entity {
 
     public PackingStation(){
         status=Status.IDLE;
+        eType = EntityType.PACKINGSTATION;
     }
     public void activate(){
         switch (status){
@@ -48,6 +52,7 @@ public class PackingStation extends Entity {
     }
 
     public void requestRobots(){
+        control.robotsForOrder(this);
 
     }
 
