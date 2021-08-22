@@ -1,8 +1,11 @@
 package entities;
 
 public class StorageShelf extends Entity {
-    private final String[] itemUID;
+    private String[] itemUID;
     //Location
+
+    public StorageShelf(String entityID){this.entityID=entityID; eType = EntityType.STORAGESHELF;}
+
 
     public StorageShelf(String entityID, String[] itemUID){
         this.entityID=entityID;

@@ -15,6 +15,9 @@ class ControlTest {
 
     @Test
     void generateSimulation() {
+        Control testControl = new Control();
+        File testFile = new File("jpc-coursework/resources/sampleData.txt");
+        testControl.generateSimulation(testFile);
     }
 
     @Test

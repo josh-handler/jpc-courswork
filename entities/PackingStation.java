@@ -29,9 +29,10 @@ public class PackingStation extends Entity {
      * method: dispacth order
      **/
 
-    public PackingStation(){
+    public PackingStation(String entityID){
         status=Status.IDLE;
         eType = EntityType.PACKINGSTATION;
+        this.entityID=entityID;
     }
     public void activate(){
         switch (status){

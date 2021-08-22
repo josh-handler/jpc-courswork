@@ -36,17 +36,23 @@ public class Control {
              ) {
             switch (line.split("=")[0]){
                 case "chargingPods":
-                    addPods(line);
-                    String[] splitList = line.split("\\[\\[|],\\[|]]");
-                    for (int i = 1; i<splitList.length; i++){
-                        addPod("cP" + i, splitList[i]);
+                    String[] splitPodList = line.split("\\[\\[|],\\[|]]");
+                    for (int i = 1; i<splitPodList.length; i++){
+                        addPod("cP" + i, splitPodList[i]);
                 }
                     break;
                 case "storageShelves":
-                    System.out.println("storageShelves");
+                    String[] splitShelfList = line.split("\\[\\[|],\\[|]]");
+                    for (int i = 1; i<splitShelfList.length; i++){
+                        addShelf("sS" + i, splitShelfList[i]);
+                    }
+
                     break;
                 case "packingStations":
-                    System.out.println("packingStations");
+                    String[] splitStationList = line.split("\\[\\[|],\\[|]]");
+                    for (int i = 1; i<splitStationList.length; i++){
+                        addStation("sS" + i, splitStationList[i]);
+                    }
                     break;
             }
 
@@ -54,12 +60,25 @@ public class Control {
         return entitiesFromFile;
     }
 
+    //TODO integrate with grid
     public void addPod(String eID, String podData){
         String[] splitPodData = podData.split(",");
         ChargingPod newPod = new ChargingPod(eID, Integer.parseInt(splitPodData[2]));
-        grid.
-        entityList.add();
+        entityList.add(newPod);
 
+    }
+    //TODO integrate with grid
+    //TODO add itemUID
+    public void addShelf(String eID, String shelfData){
+        //String[] splitPodData = shelfData.split(",");
+        //may add on for itemUID
+        StorageShelf newShelf = new StorageShelf(eID);
+        entityList.add(newShelf);
+    }
+    //TODO integrate with grid
+    public void addStation(String eID, String stationData){
+        PackingStation newStation = new PackingStation(eID);
+        entityList.add(newStation);
     }
 
 
