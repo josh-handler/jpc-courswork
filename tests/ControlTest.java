@@ -17,7 +17,12 @@ class ControlTest {
     void generateSimulation() {
         Control testControl = new Control();
         File testFile = new File("jpc-coursework/resources/sampleData.txt");
-        testControl.generateSimulation(testFile);
+        try{
+            testControl.generateSimulation(testFile);
+        } catch (Exception gridSizeException){
+            System.out.println("gridSizeException");
+        }
+        System.out.println(testControl.getDisplayGrid());
     }
 
     @Test
@@ -36,8 +41,12 @@ class ControlTest {
     void robotsForOrder(){
         Control testControl = new Control();
         File testFile = new File("jpc-coursework/resources/sampleData.txt");
-        testControl.generateSimulation(testFile);
-        PackingStation testStation = new PackingStation();
+        try{
+            testControl.generateSimulation(testFile);
+        } catch (Exception gridSizeException){
+            System.out.println("gridSizeException");
+        }
+        PackingStation testStation = new PackingStation("testStation");
         ArrayList<Robot> results = testControl.robotsForOrder(testStation);
         for (Robot robot:
              results) {

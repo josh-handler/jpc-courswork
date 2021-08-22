@@ -22,6 +22,7 @@ public class Control {
         entityList = readEntities(simulationData);
         grid = readGrid(simulationData);
         orders = new OrderList();
+        grid.generateDisplayGrid();
 
 
     }
@@ -98,14 +99,14 @@ public class Control {
         int y=0;
         for (String line:
              simulationData) {
-            if(line.matches("^x=")){
+            if(line.contains("width=")){
                 x=Integer.parseInt(line.split("=")[1]);
                 break;
             }
         }
         for (String line:
                 simulationData) {
-            if(line.matches("^y=")){
+            if(line.contains("height=")){
                 y=Integer.parseInt(line.split("=")[1]);
                 break;
             }
@@ -118,6 +119,18 @@ public class Control {
             Exception gridSizeException = new Exception("Grid Size data missing or incorrect");
             throw gridSizeException;
         }
+
+    }
+
+    public String[] getTheDisplayGrid(){
+        ArrayList<String> gridHolder = new ArrayList<>();
+        for (int i = 0; i<grid.getDisplayGrid().length;i++)
+            gridHolder.add(String.valueOf(grid.getDisplayGrid()[i]));
+
+        String[] displayGrid  = gridHolder.toArray(new String[0]);
+
+        return displayGrid;
+
     }
 
     public void runSimulation(){}
