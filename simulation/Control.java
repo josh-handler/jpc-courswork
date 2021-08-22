@@ -1,9 +1,6 @@
 package simulation;
 
-import entities.Entity;
-import entities.PackingStation;
-import entities.Robot;
-import entities.StorageShelf;
+import entities.*;
 import framework.FileToArrayList;
 
 import java.io.File;
@@ -39,7 +36,11 @@ public class Control {
              ) {
             switch (line.split("=")[0]){
                 case "chargingPods":
-                    System.out.println("chargingPods");
+                    addPods(line);
+                    String[] splitList = line.split("\\[\\[|],\\[|]]");
+                    for (int i = 1; i<splitList.length; i++){
+                        addPod("cP" + i, splitList[i]);
+                }
                     break;
                 case "storageShelves":
                     System.out.println("storageShelves");
@@ -52,6 +53,15 @@ public class Control {
         }
         return entitiesFromFile;
     }
+
+    public void addPod(String eID, String podData){
+        String[] splitPodData = podData.split(",");
+        ChargingPod newPod = new ChargingPod(eID, Integer.parseInt(splitPodData[2]));
+        grid.
+        entityList.add();
+
+    }
+
 
     public Grid readGrid(ArrayList<String> simulationData) {
         Grid gridFromFile = new Grid();

@@ -18,4 +18,8 @@ public class Grid {
 
     }
 
+    public void addEntityToMap(){}
+
+    public boolean moveRobot(){return false;};
+
 }
