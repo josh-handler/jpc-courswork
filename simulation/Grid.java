@@ -13,10 +13,7 @@ public class Grid {
     private Map<Entity, int[][]> map;
 
     public Grid(){}
-
-    public Grid(File dataFile){
-
-    }
+    public Grid(int width, int height){mapWidth=width; mapHeight=height;}
 
     public void addEntityToMap(){}
 

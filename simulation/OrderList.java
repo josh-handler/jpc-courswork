@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 public class OrderList {
     ArrayList<Order> orderList;
-
+    int count;
     public OrderList() {
         orderList = new ArrayList<Order>();
+        count=0;
     }
 
     public OrderList(String documentPath) {
@@ -18,6 +19,7 @@ public class OrderList {
     public void appendToRequestList(Order newOrder) {
         // adds an order to the end of the requestList. Primarily intended for use when
         // generating a simulation from a startup document
+        orderList.add(newOrder);
     }
 
     public ArrayList<String> getOrderList() {
@@ -26,6 +28,11 @@ public class OrderList {
 
     public Robot callRobot() {
         return callRobot();
+    }
+
+    public String newOrderID(){
+        count++;
+        return "order " + count;
     }
 
 }

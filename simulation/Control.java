@@ -5,6 +5,7 @@ import framework.FileToArrayList;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Control {
     private ArrayList<Entity> entityList;
@@ -15,18 +16,28 @@ public class Control {
 
     }
 
-    public void generateSimulation(File dataFile){
+    public void generateSimulation(File dataFile) throws Exception{
         ArrayList<String> simulationData = new ArrayList<>();
         simulationData = FileToArrayList.readFile(dataFile);
         entityList = readEntities(simulationData);
         grid = readGrid(simulationData);
-        //orders = readOrderList(dataFile);
+        orders = new OrderList();
+
 
     }
 
-    public OrderList readOrderList(ArrayList<String> simulationData){
-        OrderList ordersFromFile = new OrderList();
-        return ordersFromFile;
+    public void addOrder(String oneOrder){
+        String[] itemsArray = oneOrder.split("=");
+        Order toAdd = new Order(orders.newOrderID(), itemsArray);
+        orders.appendToRequestList(toAdd);
+    }
+
+    public void readAndAddOrders(File orderFile){
+        ArrayList<String> ordersToMake = FileToArrayList.readFile(orderFile);
+        for (String line:ordersToMake) {
+            Order toAdd = new Order(orders.newOrderID(),line.split(","));
+            orders.appendToRequestList(toAdd);
+        }
     }
 
     public ArrayList<Entity> readEntities(ArrayList<String> simulationData){
@@ -81,10 +92,32 @@ public class Control {
         entityList.add(newStation);
     }
 
-
-    public Grid readGrid(ArrayList<String> simulationData) {
-        Grid gridFromFile = new Grid();
-        return gridFromFile;
+    //TODO look into custom exception here - would it be better?
+    public Grid readGrid(ArrayList<String> simulationData) throws Exception {
+        int x=0;
+        int y=0;
+        for (String line:
+             simulationData) {
+            if(line.matches("^x=")){
+                x=Integer.parseInt(line.split("=")[1]);
+                break;
+            }
+        }
+        for (String line:
+                simulationData) {
+            if(line.matches("^y=")){
+                y=Integer.parseInt(line.split("=")[1]);
+                break;
+            }
+        }
+        if(x>0 && y>0) {
+            Grid gridFromFile = new Grid(x, y);
+            return gridFromFile;
+        }
+        else{
+            Exception gridSizeException = new Exception("Grid Size data missing or incorrect");
+            throw gridSizeException;
+        }
     }
 
     public void runSimulation(){}
