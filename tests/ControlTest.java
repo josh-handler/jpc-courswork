@@ -1,5 +1,6 @@
 package tests;
 
+import entities.Entity;
 import entities.PackingStation;
 import entities.Robot;
 import framework.FileToArrayList;
@@ -20,9 +21,17 @@ class ControlTest {
         try{
             testControl.generateSimulation(testFile);
         } catch (Exception gridSizeException){
-            System.out.println("gridSizeException");
+            gridSizeException.printStackTrace();
         }
-        System.out.println(testControl.getDisplayGrid());
+        for (String line:testControl.getTheDisplayGrid()
+             ) {
+            System.out.println(line);
+        }
+        testControl
+                .getGrid()
+                .getMap()
+                .forEach((entity, ints) -> System.out.println(entity.getEntityID() +" "+  ints[0] +" "+ints[1]));
+
     }
 
     @Test

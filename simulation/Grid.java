@@ -3,6 +3,9 @@ package simulation;
 import entities.Entity;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Grid {
@@ -10,17 +13,34 @@ public class Grid {
     private char[][] displayGrid;
     private int mapWidth;
     private int mapHeight;
-    private Map<Entity, int[]> map;
+
+    public HashMap<Entity, int[]> getMap() {
+        return map;
+    }
+
+    private HashMap<Entity, int[]> map;
 
     public Grid(){}
-    public Grid(int width, int height){mapWidth=width; mapHeight=height;}
+    public Grid(int width, int height){
+        mapWidth=width;
+        mapHeight=height;
+        map = new HashMap();
+    }
 
-    public void addEntityToMap(){}
+    public void addEntityToMap(Entity entity, int xPos, int yPos){
+        int[] coordinates = new int[2];
+        coordinates[0] = xPos;
+        coordinates[1] = yPos;
+        map.put(entity, coordinates);
+    }
 
     public boolean moveRobot(){return false;};
 
     public void generateDisplayGrid() {
         displayGrid = new char[mapWidth][mapHeight];
+        char[] fillLine = new char[mapHeight];
+        Arrays.fill(fillLine, '.');
+        Arrays.fill(displayGrid, fillLine);
         int x;
         int y;
         for (Entity entity :

@@ -2,12 +2,15 @@ package simulation;
 
 import entities.*;
 import framework.FileToArrayList;
+import framework.GridSizeException;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Control {
+
+
     private ArrayList<Entity> entityList;
     private Grid grid;
     private OrderList orders;
@@ -16,11 +19,12 @@ public class Control {
 
     }
 
-    public void generateSimulation(File dataFile) throws Exception{
-        ArrayList<String> simulationData = new ArrayList<>();
+    public void generateSimulation(File dataFile) throws GridSizeException{
+        ArrayList<String> simulationData;
         simulationData = FileToArrayList.readFile(dataFile);
-        entityList = readEntities(simulationData);
         grid = readGrid(simulationData);
+        entityList = new ArrayList<>();
+        readEntities(simulationData);
         orders = new OrderList();
         grid.generateDisplayGrid();
 
@@ -41,35 +45,35 @@ public class Control {
         }
     }
 
-    public ArrayList<Entity> readEntities(ArrayList<String> simulationData){
-        ArrayList<Entity> entitiesFromFile = new ArrayList<>();
-
+    public void readEntities(ArrayList<String> simulationData){
         for (String line: simulationData
              ) {
-            switch (line.split("=")[0]){
-                case "chargingPods":
-                    String[] splitPodList = line.split("\\[\\[|],\\[|]]");
+            String[] subLine = line.split("=");
+            switch (subLine[0]){
+                case "chargingPodsAndRobots":
+                    String[] splitPodList = subLine[1].split("\\(\\(|\\),\\(|\\)\\)");
                     for (int i = 1; i<splitPodList.length; i++){
                         addPod("cP" + i, splitPodList[i]);
+
                 }
                     break;
                 case "storageShelves":
-                    String[] splitShelfList = line.split("\\[\\[|],\\[|]]");
+                    String[] splitShelfList = line.split("\\(\\(|\\),\\(|\\)\\)");
                     for (int i = 1; i<splitShelfList.length; i++){
                         addShelf("sS" + i, splitShelfList[i]);
                     }
 
                     break;
                 case "packingStations":
-                    String[] splitStationList = line.split("\\[\\[|],\\[|]]");
+                    String[] splitStationList = line.split("\\(\\(|\\),\\(|\\)\\)");
                     for (int i = 1; i<splitStationList.length; i++){
-                        addStation("sS" + i, splitStationList[i]);
+                        addStation("pS" + i, splitStationList[i]);
                     }
                     break;
             }
 
         }
-        return entitiesFromFile;
+
     }
 
     //TODO integrate with grid
@@ -77,47 +81,55 @@ public class Control {
         String[] splitPodData = podData.split(",");
         ChargingPod newPod = new ChargingPod(eID, Integer.parseInt(splitPodData[2]));
         entityList.add(newPod);
-
+        grid.addEntityToMap(newPod,Integer.parseInt(splitPodData[0]),Integer.parseInt(splitPodData[1]));
+        addRobot(eID.replace("cP","rB"), splitPodData,newPod);
+    }
+    public void addRobot(String eID, String[] splitPodData, ChargingPod linkedPod){
+        Robot newRobot = new Robot(eID, Integer.parseInt(splitPodData[3]), linkedPod);
+        entityList.add(newRobot);
+        grid.addEntityToMap(newRobot,Integer.parseInt(splitPodData[0]),Integer.parseInt(splitPodData[1]));
     }
     //TODO integrate with grid
     //TODO add itemUID
     public void addShelf(String eID, String shelfData){
-        //String[] splitPodData = shelfData.split(",");
+        String[] splitShelfData = shelfData.split(",");
         //may add on for itemUID
         StorageShelf newShelf = new StorageShelf(eID);
         entityList.add(newShelf);
+        grid.addEntityToMap(newShelf,Integer.parseInt(splitShelfData[0]),Integer.parseInt(splitShelfData[1]));
     }
     //TODO integrate with grid
     public void addStation(String eID, String stationData){
+        String[] splitStationData = stationData.split(",");
         PackingStation newStation = new PackingStation(eID);
         entityList.add(newStation);
+        grid.addEntityToMap(newStation,Integer.parseInt(splitStationData[0]),Integer.parseInt(splitStationData[1]));
     }
 
     //TODO look into custom exception here - would it be better?
-    public Grid readGrid(ArrayList<String> simulationData) throws Exception {
+    public Grid readGrid(ArrayList<String> simulationData) throws GridSizeException {
         int x=0;
         int y=0;
         for (String line:
              simulationData) {
-            if(line.contains("width=")){
+            if(line.contains("width")){
                 x=Integer.parseInt(line.split("=")[1]);
                 break;
             }
         }
         for (String line:
                 simulationData) {
-            if(line.contains("height=")){
+            if(line.contains("height")){
                 y=Integer.parseInt(line.split("=")[1]);
                 break;
             }
         }
-        if(x>0 && y>0) {
-            Grid gridFromFile = new Grid(x, y);
-            return gridFromFile;
+        if((x > 0) && (y > 0)) {
+            return new Grid(x, y);
         }
         else{
-            Exception gridSizeException = new Exception("Grid Size data missing or incorrect");
-            throw gridSizeException;
+            System.out.println("x="+x+" y=" + y);
+            throw new GridSizeException("Grid Size data missing or incorrect");
         }
 
     }
@@ -150,6 +162,12 @@ public class Control {
             }
         }
         return available;
+    }
+    public ArrayList<Entity> getEntityList() {
+        return entityList;
+    }
+    public Grid getGrid() {
+        return grid;
     }
 
 }
