@@ -2,7 +2,9 @@ package framework;
 
 import java.io.*;
 import java.util.ArrayList;
-
+/**
+ @author Josh
+ */
 public  class FileToArrayList {
     public static ArrayList<String> readFile(File target){
         String reading = "";

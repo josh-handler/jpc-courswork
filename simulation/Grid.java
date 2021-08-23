@@ -4,7 +4,9 @@ import entities.Entity;
 
 import java.io.File;
 import java.util.*;
-
+/**
+ @author Josh
+ */
 public class Grid {
 
     private char[][] displayGrid;

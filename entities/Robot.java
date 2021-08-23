@@ -1,7 +1,9 @@
 package entities;
 
 import java.util.ArrayList;
-
+/**
+ @author Josh
+ */
 public class Robot extends Entity{
 
     //private String entityID;

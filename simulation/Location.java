@@ -1,5 +1,8 @@
 package simulation;
 
+/**
+@author Sanya
+ */
 public class Location {
 
 	private int row;
@@ -10,7 +13,7 @@ public class Location {
 		this.column = column;
 	}
 
-	//checks whether current location matches goven location
+	//checks whether current location matches given location
 	public boolean locationMatch(Location location) {
 		// if (this.row == location.getRow()) && (this.column == location.getColumn()) {
 		// 	return true;

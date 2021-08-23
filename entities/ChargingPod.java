@@ -1,5 +1,7 @@
 package entities;
-
+/**
+ @author Josh
+ */
 public class ChargingPod extends Entity{
   private final int chargeSpeed;
   //private Location Location;

@@ -1,7 +1,9 @@
 package simulation;
 
 import java.util.ArrayList;
-
+/**
+ @author Josh
+ */
 public class Order {
     private enum Type {UNASSIGNED, ASSIGNED, DISPATCHED}
     private final String orderID;

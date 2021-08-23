@@ -1,5 +1,7 @@
 package entities;
-
+/**
+ @author Josh
+ */
 public abstract class Entity implements Comparable<Entity>{
     String entityID;
     public enum EntityType {ROBOT, CHARGINGPOD, PACKINGSTATION, STORAGESHELF, GENERIC}

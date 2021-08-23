@@ -1,5 +1,7 @@
 package entities;
-
+/**
+ @author Josh
+ */
 public class StorageShelf extends Entity {
     private String[] itemUID;
     //Location

@@ -7,7 +7,9 @@ import framework.GridSizeException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/**
+ @author Josh
+ */
 public class Control {
 
 
@@ -76,7 +78,6 @@ public class Control {
 
     }
 
-    //TODO integrate with grid
     public void addPod(String eID, String podData){
         String[] splitPodData = podData.split(",");
         ChargingPod newPod = new ChargingPod(eID, Integer.parseInt(splitPodData[2]));
@@ -84,12 +85,13 @@ public class Control {
         grid.addEntityToMap(newPod,Integer.parseInt(splitPodData[0]),Integer.parseInt(splitPodData[1]));
         addRobot(eID.replace("cP","rB"), splitPodData,newPod);
     }
+
     public void addRobot(String eID, String[] splitPodData, ChargingPod linkedPod){
         Robot newRobot = new Robot(eID, Integer.parseInt(splitPodData[3]), linkedPod);
         entityList.add(newRobot);
         grid.addEntityToMap(newRobot,Integer.parseInt(splitPodData[0]),Integer.parseInt(splitPodData[1]));
     }
-    //TODO integrate with grid
+
     //TODO add itemUID
     public void addShelf(String eID, String shelfData){
         String[] splitShelfData = shelfData.split(",");
@@ -98,7 +100,7 @@ public class Control {
         entityList.add(newShelf);
         grid.addEntityToMap(newShelf,Integer.parseInt(splitShelfData[0]),Integer.parseInt(splitShelfData[1]));
     }
-    //TODO integrate with grid
+
     public void addStation(String eID, String stationData){
         String[] splitStationData = stationData.split(",");
         PackingStation newStation = new PackingStation(eID);
@@ -106,7 +108,6 @@ public class Control {
         grid.addEntityToMap(newStation,Integer.parseInt(splitStationData[0]),Integer.parseInt(splitStationData[1]));
     }
 
-    //TODO look into custom exception here - would it be better?
     public Grid readGrid(ArrayList<String> simulationData) throws GridSizeException {
         int x=0;
         int y=0;

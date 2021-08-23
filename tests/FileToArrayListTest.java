@@ -8,9 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
-
-
-
+/**
+ @author Josh
+ */
 class FileToArrayListTest {
 
     @BeforeEach
