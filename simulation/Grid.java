@@ -3,34 +3,30 @@ package simulation;
 import entities.Entity;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Grid {
 
     private char[][] displayGrid;
     private int mapWidth;
     private int mapHeight;
+    private TreeMap<Entity, int[]> map;
 
-    public HashMap<Entity, int[]> getMap() {
+    public TreeMap<Entity, int[]> getMap() {
         return map;
     }
 
-    private HashMap<Entity, int[]> map;
+
 
     public Grid(){}
     public Grid(int width, int height){
         mapWidth=width;
         mapHeight=height;
-        map = new HashMap();
+        map = new TreeMap ();
     }
 
     public void addEntityToMap(Entity entity, int xPos, int yPos){
-        int[] coordinates = new int[2];
-        coordinates[0] = xPos;
-        coordinates[1] = yPos;
+        int[]coordinates = {xPos,yPos};
         map.put(entity, coordinates);
     }
 
@@ -38,58 +34,64 @@ public class Grid {
 
     public void generateDisplayGrid() {
         displayGrid = new char[mapWidth][mapHeight];
-        char[] fillLine = new char[mapHeight];
-        Arrays.fill(fillLine, '.');
-        Arrays.fill(displayGrid, fillLine);
-        int x;
-        int y;
-        for (Entity entity :
-                map.keySet()) {
-            switch (entity.getEntityType()) {
-                case PACKINGSTATION:
-                    x = map.get(entity)[0];
-                    y = map.get(entity)[1];
-                    if (displayGrid[x][y] == 'r')
-                        displayGrid[x][y] = 'P';
-                    else
-                        displayGrid[x][y] = 'p';
-                    break;
-                case STORAGESHELF:
-                    x = map.get(entity)[0];
-                    y = map.get(entity)[1];
-                    if (displayGrid[x][y] == 'r')
-                        displayGrid[x][y] = 'S';
-                    else
-                        displayGrid[x][y] = 's';
-                    break;
-                case CHARGINGPOD:
-                    x = map.get(entity)[0];
-                    y = map.get(entity)[1];
-                    if (displayGrid[x][y] == 'r')
-                        displayGrid[x][y] = 'C';
-                    else
-                        displayGrid[x][y] = 'c';
-                    break;
-                case ROBOT:
-                    x = map.get(entity)[0];
-                    y = map.get(entity)[1];
-                    char changeTo = 'r';
-                    switch (displayGrid[x][y]) {
-                        case 'p':
-                            changeTo = 'P';
-                            break;
-                        case 's':
-                            changeTo = 'S';
-                            break;
-                        case 'c':
-                            changeTo = 'C';
-                            break;
-                    }
-                    displayGrid[x][y] = changeTo;
-                        break;
-                    }
+        for(int i = 0; i<mapWidth; i++){
+            for (int j=0; j<mapHeight; j++){
+                displayGrid[i][j]= '.';
             }
         }
+        ArrayList<Entity> robotsToFill = new ArrayList<>();
+        for (Entity entity:map.keySet()
+             ) {
+            if(entity.getEntityType()== Entity.EntityType.ROBOT){
+                robotsToFill.add(entity);
+            }
+            else{
+                char rep = getCharRep(entity.getEntityType());
+                updateSingleDisplayPosition(rep, map.get(entity)[0], map.get(entity)[1]);
+            }
+        }
+        for (Entity robot:robotsToFill
+             ) {
+            char rep = getCharRep(robot.getEntityType());
+            updateSingleDisplayPosition(rep, map.get(robot)[0], map.get(robot)[1]);
+        }
+    }
+
+    public void updateSingleDisplayPosition(char representation,int xPos, int yPos){
+        switch (displayGrid[xPos][yPos]){
+            case '.':
+                displayGrid[xPos][yPos]= representation;
+                break;
+            case 'c':
+                displayGrid[xPos][yPos]= 'C';
+                break;
+            case 'p':
+                displayGrid[xPos][yPos]= 'P';
+                break;
+            case 's':
+                displayGrid[xPos][yPos]= 'S';
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + displayGrid[xPos][yPos]);
+        }
+
+    }
+
+    public char getCharRep(Entity.EntityType entityType){
+        switch (entityType){
+            case CHARGINGPOD:
+                return 'c';
+            case PACKINGSTATION:
+                return 'p';
+            case STORAGESHELF:
+                return 's';
+            case ROBOT:
+                return 'r';
+            default:
+                return '?';
+        }
+    }
 
     public void updateDisplayGrid(){}
     public char[][] getDisplayGrid() {

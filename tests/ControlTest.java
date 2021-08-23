@@ -9,6 +9,7 @@ import simulation.Control;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,10 +28,7 @@ class ControlTest {
              ) {
             System.out.println(line);
         }
-        testControl
-                .getGrid()
-                .getMap()
-                .forEach((entity, ints) -> System.out.println(entity.getEntityID() +" "+  ints[0] +" "+ints[1]));
+        System.out.println(Arrays.deepToString(testControl.getTheDisplayGrid()));
 
     }
 
@@ -61,6 +59,7 @@ class ControlTest {
              results) {
             assertEquals(Robot.Status.IDLE,robot.getState());
         }
+
 
     }
 

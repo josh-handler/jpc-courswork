@@ -136,8 +136,14 @@ public class Control {
 
     public String[] getTheDisplayGrid(){
         ArrayList<String> gridHolder = new ArrayList<>();
-        for (int i = 0; i<grid.getDisplayGrid().length;i++)
-            gridHolder.add(String.valueOf(grid.getDisplayGrid()[i]));
+        String gridLine="";
+        for (int i = 0; i<grid.getDisplayGrid().length;i++){
+            for (int j = 0; j < grid.getDisplayGrid()[i].length; j++) {
+                gridLine += grid.getDisplayGrid()[i][j] + " ";
+                }
+                gridHolder.add(gridLine);
+                gridLine = "";
+            }
 
         String[] displayGrid  = gridHolder.toArray(new String[0]);
 
