@@ -24,13 +24,13 @@ public class OrderList {
         orderList.add(newOrder);
     }
 
-    public ArrayList<String> getOrderList() {
-        return getOrderList();
+    public ArrayList<Order> getOrderList() {
+        return orderList;
     }
-
+/*
     public Robot callRobot() {
-        return callRobot();
-    }
+        return Robot ;
+    }*/
 
     public String newOrderID(){
         count++;

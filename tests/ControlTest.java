@@ -35,7 +35,14 @@ class ControlTest {
     }
 
     @Test
-    void readOrderList() {
+    void readAndAddOrders() {
+        Control testControl = new Control();
+        File testFile = new File("jpc-coursework/resources/sampleOrders.txt");
+        testControl.readAndAddOrders(testFile);
+        for (String order:testControl.getOrders()
+             ) {
+            System.out.println(order);
+        }
     }
 
     @Test

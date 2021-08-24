@@ -16,9 +16,10 @@ public class Control {
     private ArrayList<Entity> entityList;
     private Grid grid;
     private OrderList orders;
+    public enum Direction{NORTH, SOUTH, EAST, WEST}
 
     public Control(){
-
+        orders = new OrderList();
     }
 
     public void generateSimulation(File dataFile) throws GridSizeException{
@@ -27,24 +28,29 @@ public class Control {
         grid = readGrid(simulationData);
         entityList = new ArrayList<>();
         readEntities(simulationData);
-        orders = new OrderList();
         grid.generateDisplayGrid();
-       
-
-
     }
 
+    public void resetOrders(){
+        orders=new OrderList();
+    }
+
+    public ArrayList<String> getOrders(){
+        ArrayList<String> orderInfo = new ArrayList<>();
+        orders.getOrderList().forEach(order->orderInfo.add(order.toString()));
+        return orderInfo;
+    }
     public void addOrder(String oneOrder){
-        String[] itemsArray = oneOrder.split("=");
+        String[] itemsArray = oneOrder.split(",");
         Order toAdd = new Order(orders.newOrderID(), itemsArray);
         orders.appendToRequestList(toAdd);
     }
 
     public void readAndAddOrders(File orderFile){
         ArrayList<String> ordersToMake = FileToArrayList.readFile(orderFile);
+        ordersToMake.remove(0);
         for (String line:ordersToMake) {
-            Order toAdd = new Order(orders.newOrderID(),line.split(","));
-            orders.appendToRequestList(toAdd);
+            addOrder(line);
         }
     }
 
@@ -153,7 +159,12 @@ public class Control {
 
     }
 
-    public void runSimulation(){}
+    public void advanceSimulation(){
+        for (Entity entity:entityList
+             ) {
+            entity.act();
+        }
+    }
 
     public ArrayList<Robot> robotsForOrder(PackingStation endpoint){
         ArrayList<Robot> available = new ArrayList<>();
@@ -176,6 +187,24 @@ public class Control {
     }
     public Grid getGrid() {
         return grid;
+    }
+
+    public void moveRobot(Robot toMove, Direction direction){
+        switch (direction){
+            case NORTH:
+                grid.moveRobot(toMove, 0, 1);
+                break;
+            case SOUTH:
+                grid.moveRobot(toMove, 0, -1);
+                break;
+            case EAST:
+                grid.moveRobot(toMove, 1, 1);
+                break;
+            case WEST:
+                grid.moveRobot(toMove, 1, -1);
+                break;
+        }
+        toMove.loseCharge();
     }
 
 }

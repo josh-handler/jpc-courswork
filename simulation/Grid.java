@@ -1,6 +1,7 @@
 package simulation;
 
 import entities.Entity;
+import entities.Robot;
 
 import java.io.File;
 import java.util.*;
@@ -13,10 +14,12 @@ public class Grid {
     private int mapWidth;
     private int mapHeight;
     private TreeMap<Entity, int[]> map;
+    public TreeMap<int[], Robot> robots;
 
     public TreeMap<Entity, int[]> getMap() {
         return map;
     }
+
 
 
 
@@ -30,9 +33,24 @@ public class Grid {
     public void addEntityToMap(Entity entity, int xPos, int yPos){
         int[]coordinates = {xPos,yPos};
         map.put(entity, coordinates);
+        if (entity.getEntityType()==Entity.EntityType.ROBOT)
+            robots.put(coordinates, (Robot) entity);
     }
 
-    public boolean moveRobot(){return false;};
+
+    public boolean moveRobot(Robot moveRobot, int verticalOrHorizontal, int alongOrBack){
+        int[] startPosition = map.get(moveRobot);
+        int[] endPosition = startPosition;
+        endPosition[verticalOrHorizontal] += alongOrBack;
+        if(robots.keySet().contains(endPosition))
+            return true;
+        else {
+            map.replace(moveRobot, endPosition);
+            robots.remove(startPosition);
+            robots.put(endPosition, moveRobot);
+            return false;
+        }
+    }
 
     public void generateDisplayGrid() {
         displayGrid = new char[mapWidth][mapHeight];
@@ -73,7 +91,6 @@ public class Grid {
             case 's':
                 displayGrid[xPos][yPos]= 'S';
                 break;
-
             default:
                 throw new IllegalStateException("Unexpected value: " + displayGrid[xPos][yPos]);
         }

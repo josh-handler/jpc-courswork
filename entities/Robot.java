@@ -1,8 +1,10 @@
 package entities;
 
 import java.util.ArrayList;
+import simulation.Grid.*;
 /**
  @author Josh
+ @author Sanya
  */
 public class Robot extends Entity{
 
@@ -11,10 +13,7 @@ public class Robot extends Entity{
     private final int maxCharge; //capacity
     private int currentCharge;
     private final ChargingPod pod;
-    public enum Status {IDLE, BUSY};
-
-
-
+    public enum Status {IDLE, GETTING, CARRYING};
     Status state;
 
 
@@ -31,20 +30,27 @@ public class Robot extends Entity{
 //method to check chargeS
 
 
-//if robot running, - charge methid: CHECK ROBOT STATUS, THEN MINUS CHARGE ACCORDINGLINY
+//if robot running, - charge method: CHECK ROBOT STATUS, THEN MINUS CHARGE ACCORDINGLINY
 
 
 private void charge() {
         int chargeSpeed = pod.getChargeSpeed();
-		if (this.currentCharge + chargeSpeed >= maxCharge) {
+		if (currentCharge + chargeSpeed >= maxCharge) {
       //charged//fully charged
-			this.currentCharge = maxCharge;
+			currentCharge = maxCharge;
 		}
     else {
       //charging
-			this.currentCharge += chargeSpeed;
+			currentCharge += chargeSpeed;
 		}
 	}
+
+public void loseCharge(){
+        if(state == Status.CARRYING)
+            currentCharge -= 2;
+        else
+            currentCharge -= 1;
+}
 
   //NEED ORDER MANAGER :()
 
@@ -67,4 +73,5 @@ private void charge() {
         return heldItems;
     }
     public Status getState() {return state;}
+    
 }

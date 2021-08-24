@@ -9,9 +9,11 @@ public class PackingStation extends Entity {
 
 
     //Location??
-    private enum Status {IDLE, REQUESTING ,WAITING, PACKING}
-    private Status status;
+    private enum OrderStatus {IDLE, REQUESTING ,WAITING}
+    private OrderStatus status;
     private Order order;
+    private boolean canPack=false;
+    private int packCount=0;
     /**
      * method:
      * AT A CURRENT tick
@@ -30,11 +32,12 @@ public class PackingStation extends Entity {
      **/
 
     public PackingStation(String entityID){
-        status=Status.IDLE;
+        status=OrderStatus.IDLE;
         eType = EntityType.PACKINGSTATION;
         this.entityID=entityID;
     }
-    public void activate(){
+    @Override
+    public void act(){
         switch (status){
             case IDLE:
                 requestOrder();
@@ -42,11 +45,13 @@ public class PackingStation extends Entity {
                 break;
             case REQUESTING:
                 requestRobots();
-            case PACKING:
-                pack();
                 break;
             }
-
+        if(canPack){
+            pack();
+        }
+        if (order.getStatus()== Order.Type.DISPATCHED)
+            status=OrderStatus.IDLE;
     }
     public void requestOrder() {
 
@@ -58,7 +63,7 @@ public class PackingStation extends Entity {
     }
 
     public void pack(){
-
+        packCount+=1;
 
     }
 

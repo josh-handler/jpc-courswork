@@ -5,7 +5,7 @@ import java.util.ArrayList;
  @author Josh
  */
 public class Order {
-    private enum Type {UNASSIGNED, ASSIGNED, DISPATCHED}
+    public enum Type {UNASSIGNED, ASSIGNED, DISPATCHED}
     private final String orderID;
     private String[] orderItems;
     private Type status;
@@ -26,5 +26,14 @@ public class Order {
 
     public String getOrderID() {
         return orderID;
+    }
+
+    @Override
+    public String toString(){
+        String contents = getOrderItems()[0];
+        for (int i =1; i<getOrderItems().length;i++){
+            contents+=", " + getOrderItems()[i];
+        }
+        return getOrderID() + " is " + getStatus() + " and contains: " + contents;
     }
 }

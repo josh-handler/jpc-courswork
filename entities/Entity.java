@@ -15,6 +15,8 @@ public abstract class Entity implements Comparable<Entity>{
         eType= EntityType.GENERIC;
     }
 
+    public void act(){}
+
     public String getEntityID() {
         return entityID;
     }
