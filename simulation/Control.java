@@ -29,6 +29,7 @@ public class Control {
         readEntities(simulationData);
         orders = new OrderList();
         grid.generateDisplayGrid();
+       
 
 
     }
