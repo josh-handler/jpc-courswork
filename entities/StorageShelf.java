@@ -3,19 +3,19 @@ package entities;
  @author Josh
  */
 public class StorageShelf extends Entity {
-    private String[] itemUID;
+    private int packingTime;
     //Location
 
-    public StorageShelf(String entityID){this.entityID=entityID; eType = EntityType.STORAGESHELF;}
+   // public StorageShelf(String entityID){this.entityID=entityID; eType = EntityType.STORAGESHELF;}
 
 
-    public StorageShelf(String entityID, String[] itemUID){
+    public StorageShelf(String entityID, int packingTime){
         this.entityID=entityID;
-        this.itemUID=itemUID;
+        this.packingTime=packingTime;
         eType = EntityType.STORAGESHELF;
     }
 
-    public String[] getItemUID() {
-        return itemUID;
+    public int getpackingTime() {
+        return packingTime;
     }
 }

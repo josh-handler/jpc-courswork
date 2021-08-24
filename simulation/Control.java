@@ -103,14 +103,15 @@ public class Control {
     public void addShelf(String eID, String shelfData){
         String[] splitShelfData = shelfData.split(",");
         //may add on for itemUID
-        StorageShelf newShelf = new StorageShelf(eID);
+        StorageShelf newShelf = new StorageShelf(eID, Integer.parseInt(splitShelfData[2]));
         entityList.add(newShelf);
         grid.addEntityToMap(newShelf,Integer.parseInt(splitShelfData[0]),Integer.parseInt(splitShelfData[1]));
     }
 
     public void addStation(String eID, String stationData){
         String[] splitStationData = stationData.split(",");
-        PackingStation newStation = new PackingStation(eID);
+        int[]location={Integer.parseInt(splitStationData[0]),Integer.parseInt(splitStationData[1])};
+        PackingStation newStation = new PackingStation(eID, location );
         entityList.add(newStation);
         grid.addEntityToMap(newStation,Integer.parseInt(splitStationData[0]),Integer.parseInt(splitStationData[1]));
     }

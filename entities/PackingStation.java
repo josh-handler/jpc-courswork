@@ -1,6 +1,10 @@
 package entities;
 
 import simulation.Order;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static simulation.Main.control;
 /**
  @author Josh
@@ -12,8 +16,12 @@ public class PackingStation extends Entity {
     private enum OrderStatus {IDLE, REQUESTING ,WAITING}
     private OrderStatus status;
     private Order order;
+    private ArrayList<String> required;
     private boolean canPack=false;
-    private int packCount=0;
+    private int packCount = 0;
+    private  int packGoal;
+    int[] location;
+
     /**
      * method:
      * AT A CURRENT tick
@@ -31,10 +39,11 @@ public class PackingStation extends Entity {
      * method: dispacth order
      **/
 
-    public PackingStation(String entityID){
+    public PackingStation(String entityID, int[] location){
         status=OrderStatus.IDLE;
         eType = EntityType.PACKINGSTATION;
         this.entityID=entityID;
+
     }
     @Override
     public void act(){
@@ -54,18 +63,29 @@ public class PackingStation extends Entity {
             status=OrderStatus.IDLE;
     }
     public void requestOrder() {
-
+        required = new ArrayList<>();
+        required.addAll(Arrays.asList(order.getOrderItems()));
     }
 
     public void requestRobots(){
-        control.robotsForOrder(this);
+        ArrayList<Robot> availableBots = control.robotsForOrder(this);
+        boolean jobTaken = false;
+        while (availableBots.iterator().hasNext() && jobTaken==false)
+            availableBots.iterator().next().checkIfPossible(this, required);
+
 
     }
 
     public void pack(){
+
         packCount+=1;
+        if(packGoal<=packCount)
+            canPack=false;
+
 
     }
 
     ;
+
+    public void setPackGoal(int goal){packGoal=goal;}
 }
